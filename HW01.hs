@@ -5,35 +5,40 @@ module HW01 where
 
 -- Get the last digit from a number
 lastDigit :: Integer -> Integer
-lastDigit = undefined
+lastDigit = flip mod 10
 
 -- Drop the last digit from a number
 dropLastDigit :: Integer -> Integer
-dropLastDigit = undefined
+dropLastDigit = flip div 10
 
 -- Exercise 2 -----------------------------------------
 
 toRevDigits :: Integer -> [Integer]
-toRevDigits = undefined
+toRevDigits digits
+  | digits <= 0 = []
+  | otherwise   = getLast digits : getRest digits
+  where getLast = lastDigit
+        getRest = (toRevDigits . dropLastDigit)
 
 -- Exercise 3 -----------------------------------------
 
 -- Double every second number in a list starting on the left.
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther = undefined
+doubleEveryOther [] = []
+doubleEveryOther [x] = [x]
+doubleEveryOther (x:xs) = x : (2 * head xs) : doubleEveryOther (tail xs)
 
 -- Exercise 4 -----------------------------------------
 
 -- Calculate the sum of all the digits in every Integer.
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
-
+sumDigits = foldl (\acc x -> acc + (lastDigit x + dropLastDigit x)) 0
 
 -- Exercise 5 -----------------------------------------
 
 -- Validate a credit card number using the above functions.
 luhn :: Integer -> Bool
-luhn = undefined
+luhn card_number = (==) 0 (lastDigit . sumDigits . doubleEveryOther $ toRevDigits card_number)
 
 -- Exercise 6 -----------------------------------------
 
@@ -41,5 +46,6 @@ luhn = undefined
 type Peg = String
 type Move = (Peg, Peg)
 
-hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi = undefined
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move] -- disc from to temp
+hanoi 0 _ _ _ = []
+hanoi n a c b = hanoi (n - 1) a b c ++ [(a, c)] ++ hanoi (n - 1) b c a
