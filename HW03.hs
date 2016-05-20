@@ -34,15 +34,28 @@ type State = String -> Int
 -- Exercise 1 -----------------------------------------
 
 extend :: State -> String -> Int -> State
-extend = undefined
+extend state name value = (\x -> if x == name then value else state x)
 
 empty :: State
-empty = undefined
+empty = (\_ -> 0)
 
 -- Exercise 2 -----------------------------------------
 
 evalE :: State -> Expression -> Int
-evalE = undefined
+evalE state (Var var) = state var
+evalE _ (Val val) = val
+evalE state (Op exp1 bop exp2)
+        | bop == Plus = (+) lvalue rvalue
+        | bop == Minus = (-) lvalue rvalue
+        | bop == Times = (*) lvalue rvalue
+        | bop == Divide = div lvalue rvalue
+        | bop == Gt = if (>) lvalue rvalue then 1 else 0
+        | bop == Ge = if (>=) lvalue rvalue then 1 else 0
+        | bop == Lt = if (<) lvalue rvalue then 1 else 0
+        | bop == Le = if (<=) lvalue rvalue then 1 else 0
+        | bop == Eql = if (==) lvalue rvalue then 1 else 0
+        where lvalue = evalE state exp1
+              rvalue = evalE state exp2
 
 -- Exercise 3 -----------------------------------------
 
@@ -54,16 +67,26 @@ data DietStatement = DAssign String Expression
                      deriving (Show, Eq)
 
 desugar :: Statement -> DietStatement
-desugar = undefined
+desugar (Assign var exp1) = DAssign var exp1
+desugar (Incr var) = DAssign var (Op (Var var) Plus (Val 1))
+desugar (If exp1 st1 st2) = DIf exp1 (desugar st1) (desugar st2)
+desugar (While exp1 st) = DWhile exp1 (desugar st)
+desugar (For st1 exp1 st2 st3) = desugar (Sequence st1 $ While exp1 $ Sequence st3 st2)
+desugar (Sequence st1 st2) = DSequence (desugar st1) (desugar st2)
+desugar (Skip) = DSkip
 
 
 -- Exercise 4 -----------------------------------------
 
 evalSimple :: State -> DietStatement -> State
-evalSimple = undefined
+evalSimple state (DAssign var exp1) = extend state var $ evalE state exp1
+evalSimple state (DIf exp1 diet_st1 diet_st2) = if (==) 1 $ evalE state exp1 then evalSimple state diet_st1 else evalSimple state diet_st2
+evalSimple state (DWhile exp1 diet_st1) = evalSimple state $ DIf exp1 (DSequence diet_st1 $ DWhile exp1 diet_st1) DSkip
+evalSimple state (DSequence diet_st1 diet_st2) = flip evalSimple diet_st2 $ evalSimple state diet_st1
+evalSimple state (DSkip) = state
 
 run :: State -> Statement -> State
-run = undefined
+run state st = evalSimple state $ desugar st
 
 -- Programs -------------------------------------------
 
