@@ -46,8 +46,9 @@ getBadTs victims_path transaction_path = do
 -- Exercise 5 -----------------------------------------
 
 getFlow :: [Transaction] -> Map String Integer
-getFlow = foldr foldFlow Map.empty
-  where foldFlow (Transaction from to amount _) = Map.insert to amount . Map.insert from (negate amount)
+getFlow = foldr flows Map.empty
+  where flows t = Map.insertWith (+) (to t) (amount t) .
+                  Map.insertWith (+) (from t) (negate $ amount t)
 
 -- Exercise 6 -----------------------------------------
 
@@ -63,7 +64,7 @@ undoTs flow_map tid = zipWith (\id (from, to, amount) -> Transaction from to amo
         repay _ [] = []
         repay (payer:payers) (payee:payees)
           | minimum_amount == (snd payer) = (from_name, to_name, minimum_amount) : repay payers ((to_name, to_amount):payees)
-          | minimum_amount == (snd payee) = (from_name, to_name, minimum_amount) : repay ((from_name, from_amount):payers) payees
+          | minimum_amount == ((negate . snd) payee) = (from_name, to_name, minimum_amount) : repay ((from_name, from_amount):payers) payees
           | otherwise = repay payers payees
           where minimum_amount = min (snd payer) ((negate . snd) payee)
                 from_name = fst payer
