@@ -26,6 +26,9 @@
 * Functional Parser
 * Zipper
 
+[LYHGG][lyhgg]: chap 13-14
+[RWH][rwh]: chap 16
+
 ## 과제
 * [Haskell Basics][basics-hw]: 1,2,3
 * [Haskell Basics 2][basics-hw]: 4,5,7
@@ -37,4 +40,11 @@
 
 [basics-hw]: http://www.seas.upenn.edu/~cis194/lectures.html
 
+----
+
+* Learn You a Haskell for Great Good! [LYHGG]: http://learnyouahaskell.com/chapters
+
+* Real World Haskell [RWH]: http://book.realworldhaskell.org/read/
+
 [lyhgg]: http://learnyouahaskell.com/chapters
+[rwh]: http://book.realworldhaskell.org/read/
