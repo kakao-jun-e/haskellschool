@@ -50,7 +50,8 @@
 ### 하스켈 학교 세미나
 * [하스켈 모나드](http://www.slideshare.net/skyul1/ss-60813802)
 * [종이접기(fold) 프로그래밍](http://www.slideshare.net/skyul1/fold-62813681)
-
+* [There is no Fork: an Abstraction for Efficient, Concurrent, and Concise Data Access](http://community.haskell.org/~simonmar/papers/haxl-icfp14.pdf)
+* [A Haskell library for music creation: Euterpea](http://www.euterpea.com/)
 
 [intro]: https://gamecodingschool.org/2016/05/01/%ED%95%98%EC%8A%A4%EC%BC%80-%ED%95%99%EA%B5%90-%EA%B0%95%EC%9D%98%EB%A5%BC-%EC%A4%80%EB%B9%84%ED%95%98%EB%A9%B0/
 [haskell-basics]: http://www.slideshare.net/skyul1/ss-62007489
