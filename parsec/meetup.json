@@ -1,0 +1,23 @@
+{
+    "rsvp_limit": 15,
+    "status": "upcoming",
+    "visibility": "public",
+    "venue": {
+        "name": "Hyperconnect, Inc",
+        "address": "14F, 5 Seocho-daero 78-gil, Seocho-gu",
+        "city": "Seoul",
+        "country": "kr",
+        "lat": 37.49721,
+        "lon": 127.027374
+    },
+    "id": "140930019688259",
+    "time": 1474326000,
+    "event_url": "https://www.facebook.com/events/140930019688259/",
+    "name": "Parsing Stuff in Haskell",
+    "group": {
+        "id": 1065398240148353,
+        "name": "Haskell School",
+        "join_mode": "open",
+        "group_url": "https://www.facebook.com/groups/1065398240148353/"
+    }
+}
